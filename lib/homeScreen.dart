@@ -15,9 +15,14 @@ class Homescreen extends StatelessWidget{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("HOMEPAGE BODY CONTENT")
+            Text("HOMEPAGE BODY CONTENT"),
+          
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){},
+        child: Icon(Icons.message),
       ),
     );
   }
