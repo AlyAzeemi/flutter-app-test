@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:layout/userProfileView.dart';
+
 
 class MainDrawer extends StatelessWidget {
 
@@ -12,9 +12,9 @@ class MainDrawer extends StatelessWidget {
           fontSize: 18,
         ),
       ),
-      onTap: ()=>{
+      onTap: (){
         if(path!=null){
-          Navigator.of(context).pushNamed(path)
+          Navigator.of(context).pushNamed(path);
         }
       },
     );
@@ -57,8 +57,8 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           _listTile(Icons.person, "Profile", "/profile", context),
-          _listTile(Icons.face,"Student", null, context),
-          _listTile(Icons.school,"Teacher", null, context),
+          _listTile(Icons.face,"Students", null, context),
+          _listTile(Icons.school,"Teachers", '/teachers', context),
           _listTile(Icons.account_balance,"School", null, context),
           Expanded(
             child: Align(

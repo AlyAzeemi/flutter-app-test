@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:layout/teachersCreateView.dart';
+import 'package:layout/teachersListView.dart';
 import 'package:layout/userProfileView.dart';
 import './homeScreen.dart';
 
@@ -12,7 +14,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/':(_)=>LoginPage(),
         '/home': (_)=>Homescreen(),
-        '/profile': (_)=>UserProfileView()
+        '/profile': (_)=>UserProfileView(),
+        '/teachers': (_)=>TeacherViewPage(),
+        '/teachers/create': (_)=>TeacherCreateView()
       },
       theme: ThemeData(primaryColor: Colors.black),
     );
