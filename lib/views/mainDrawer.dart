@@ -42,7 +42,7 @@ class MainDrawer extends StatelessWidget {
                         image: DecorationImage(
                             image: NetworkImage(
                                 'https://i.stack.imgur.com/l60Hf.png'),
-                            fit: BoxFit.fill),
+                            fit: BoxFit.cover),
                       )),
                   Text(
                     "UserName",

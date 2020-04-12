@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:layout/teachersCreateView.dart';
-import 'package:layout/teachersListView.dart';
-import 'package:layout/userProfileView.dart';
-import './homeScreen.dart';
+import 'package:layout/views/teachersCreateView.dart';
+import 'package:layout/views/teachersListView.dart';
+import 'package:layout/views/userProfileView.dart';
+import './views/homeScreen.dart';
 
 void main() => runApp(MyApp());
 

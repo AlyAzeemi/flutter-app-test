@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import "dart:convert";
 import 'package:http/http.dart' as http;
+import '../models/teachers.dart';
 
 class TeacherViewPage extends StatefulWidget {
   @override
@@ -13,15 +14,16 @@ class TeacherViewPage extends StatefulWidget {
 class _TeacherViewPageState extends State<TeacherViewPage> {
   Future<List<Teacher>> _getTeachers() async {
     //var data = await http.get(url)
-    var data =
-        '''[{"fullName":"Teacher A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "doB":"DD/MM/YY", "education":"Insert educational background here.", "lastDegree":"LastCertificationGoesHere", "CNIC":"1234567890123"},{"fullName":"Teacher B", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "doB":"DD/MM/YY", "education":"Insert educational background here.", "lastDegree":"LastCertificationGoesHere", "CNIC":"1234567890123"}]''';
+    
+    var data ='''[{"fullName":"Teacher A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "education":"Insert educational background here.", "lastDegree":"LastCertificationGoesHere", "CNIC":"1234567890123"},{"fullName":"Teacher B", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Female", "doB":"DD/MM/YY", "education":"Insert educational background here.", "lastDegree":"LastCertificationGoesHere", "CNIC":"1234567890123"}]''';
     var jsonData = jsonDecode(data);
-
+    
     List<Teacher> teacherList = [];
 
     for (var t in jsonData) {
-      Teacher teacher = Teacher(t["fullName"], t["imgUrl"], t["doB"],
+      Teacher teacher = Teacher(t["fullName"], t["imgUrl"], t["gender"],  t["doB"],
           t["education"], t["lastDegree"], t["CNIC"]);
+      print(teacher);
       teacherList.add(teacher);
     }
     print(teacherList);
@@ -33,6 +35,7 @@ class _TeacherViewPageState extends State<TeacherViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       appBar: AppBar(
         title: appBarTitle,
         actions: <Widget>[
@@ -80,24 +83,27 @@ class _TeacherViewPageState extends State<TeacherViewPage> {
                   return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(snapshot.data[index].imgUrl),
+                        return Container(
+                          decoration: BoxDecoration(color: Colors.white, border: Border.all(width: 1, color: Colors.black54)),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(snapshot.data[index].imgUrl),
+                            ),
+                            title: Text(snapshot.data[index].fullName),
+                            subtitle: Text(
+                              "Degree:" +
+                                  snapshot.data[index].lastDegree +
+                                  "\n" +
+                                  "DoB:" +
+                                  snapshot.data[index].doB +
+                                  "\n" +
+                                  "CNIC:" +
+                                  snapshot.data[index].cnic,
+                            ),
+                            onTap:
+                                () {}, //Supposed to take to profile page probably
                           ),
-                          title: Text(snapshot.data[index].fullName),
-                          subtitle: Text(
-                            "Degree:" +
-                                snapshot.data[index].lastDegree +
-                                "\n" +
-                                "DoB:" +
-                                snapshot.data[index].doB +
-                                "\n" +
-                                "CNIC:" +
-                                snapshot.data[index].cnic,
-                          ),
-                          onTap:
-                              () {}, //Supposed to take to profile page probably
                         );
                       });
                 }
@@ -116,16 +122,6 @@ class _TeacherViewPageState extends State<TeacherViewPage> {
   }
 }
 
-class Teacher {
-  final String fullName;
-  final String doB;
-  final String education;
-  final String lastDegree;
-  final String cnic;
-  final String imgUrl;
 
-  Teacher(this.fullName, this.imgUrl, this.doB, this.education, this.lastDegree,
-      this.cnic);
-}
 
 
