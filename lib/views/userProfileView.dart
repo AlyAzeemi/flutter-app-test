@@ -91,7 +91,7 @@ class UserProfileViewState extends State<UserProfileView>{
         children: <Widget>[
           Container(
             constraints: BoxConstraints(
-              maxHeight: 300,
+              maxHeight: MediaQuery.of(context).size.height*0.33,
             ),
             alignment: Alignment.bottomRight,
             decoration: BoxDecoration(

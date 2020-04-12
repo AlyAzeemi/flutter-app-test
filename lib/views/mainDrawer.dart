@@ -57,7 +57,7 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           _listTile(Icons.person, "Profile", "/profile", context),
-          _listTile(Icons.face,"Students", null, context),
+          _listTile(Icons.face,"Students", "/students", context),
           _listTile(Icons.school,"Teachers", '/teachers', context),
           _listTile(Icons.account_balance,"School", null, context),
           Expanded(

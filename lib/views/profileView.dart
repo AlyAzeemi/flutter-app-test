@@ -9,13 +9,14 @@ class ProfileView extends StatelessWidget{
   ProfileView(this.cnic);
 
   Future<Map> _getProfile(){
+    //Make http req
     //if(){}
   }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(title: Text("Profile"),),
+      appBar: AppBar(title: Text("Profile")),
       body: LayoutBuilder(
         builder: (context,viewportConstraints)=>SingleChildScrollView(
           child: Column(

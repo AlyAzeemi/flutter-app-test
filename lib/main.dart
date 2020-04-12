@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:layout/views/studentListView.dart';
 import 'package:layout/views/teachersCreateView.dart';
 import 'package:layout/views/teachersListView.dart';
 import 'package:layout/views/userProfileView.dart';
-import './views/homeScreen.dart';
+import 'package:layout/views/homeScreen.dart';
+import 'package:layout/views/studentCreateView.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +18,9 @@ class MyApp extends StatelessWidget {
         '/home': (_)=>Homescreen(),
         '/profile': (_)=>UserProfileView(),
         '/teachers': (_)=>TeacherViewPage(),
-        '/teachers/create': (_)=>TeacherCreateView()
+        '/teachers/create': (_)=>TeacherCreateView(),
+        '/students':(_)=>StudentListView(),
+        '/students/create':(_)=>StudentCreateView()
       },
       theme: ThemeData(primaryColor: Colors.black),
     );
