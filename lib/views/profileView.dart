@@ -12,10 +12,10 @@ class ProfileView extends StatelessWidget {
   dynamic model;
 
   Future<Map> _getProfile() async {
-    //Make http req
-    //if(){}
-    String response =
-        '''{"fullName":"Teacher A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "education":"Insert educational background here.", "lastDegree":"LastCertificationGoesHere", "CNIC":"1234567890123"}''';
+    //Make http req using uniqueID
+    //Commment one out to test for each type of reponse
+    String response ='''{"fullName":"Student A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "registrationNumber":"1234567890123","rollNumber":"1234567890123","class":"ClassNameHere"}''';
+        //'''{"fullName":"Teacher A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "education":"Insert educational background here.", "lastDegree":"LastCertificationGoesHere", "CNIC":"1234567890123"}''';
     Map jsonData = jsonDecode(response);
     return jsonData;
   }
