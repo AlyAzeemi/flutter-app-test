@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:layout/views/profileView.dart';
 import 'package:layout/views/studentListView.dart';
 import 'package:layout/views/teachersCreateView.dart';
 import 'package:layout/views/teachersListView.dart';
@@ -20,7 +21,12 @@ class MyApp extends StatelessWidget {
         '/teachers': (_)=>TeacherViewPage(),
         '/teachers/create': (_)=>TeacherCreateView(),
         '/students':(_)=>StudentListView(),
-        '/students/create':(_)=>StudentCreateView()
+        '/students/create':(_)=>StudentCreateView(),
+      },
+      onGenerateRoute: (setting){
+        if(setting.name=="/teacher/profile"){
+          return MaterialPageRoute(builder: (context){return ProfileView(setting.arguments);});
+        }
       },
       theme: ThemeData(primaryColor: Colors.black),
     );

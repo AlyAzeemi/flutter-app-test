@@ -14,7 +14,7 @@ class _StudentCreateViewState extends State<StudentCreateView> {
   Student _student;
   GlobalKey _formKey = GlobalKey<FormState>();
 
-  String group = "Female";
+  String group = "Woman";
   String gender;
 
   _otherTextFieldStatus() {
@@ -217,7 +217,7 @@ class _StudentCreateViewState extends State<StudentCreateView> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Radio(
-                                value: "Female",
+                                value: "Woman",
                                 groupValue: group,
                                 onChanged: (val) {
                                   gender = val;
@@ -226,7 +226,7 @@ class _StudentCreateViewState extends State<StudentCreateView> {
                                     group = val;
                                   });
                                 }),
-                            Text("Female")
+                            Text("Woman")
                           ],
                         ),
 
@@ -234,7 +234,7 @@ class _StudentCreateViewState extends State<StudentCreateView> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Radio(
-                                value: "Male",
+                                value: "Man",
                                 groupValue: group,
                                 onChanged: (val) {
                                   gender = val;
@@ -243,7 +243,7 @@ class _StudentCreateViewState extends State<StudentCreateView> {
                                     group = val;
                                   });
                                 }),
-                            Text("Male")
+                            Text("Man")
                           ],
                         ),
 
@@ -294,7 +294,9 @@ class _StudentCreateViewState extends State<StudentCreateView> {
                                                           child: ButtonTheme(
                           minWidth: MediaQuery.of(context).size.width * 0.9,
                           child: FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+
+                              },
                               child: Text(
                                 "Submit",
                                 style: TextStyle(color: Colors.white),

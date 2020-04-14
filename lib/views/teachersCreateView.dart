@@ -21,10 +21,13 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
     "Masters",
     "PhD"
   ];
-  String group = "Female";
+  String group = "Woman";
+  
+  //Proxy Teacher Class values
   String gender;
-
-  bool addDegree = false;
+  String name;
+  String cnic;
+  String doB;
   List<Map> education = [
     {
       "certification": "PhD",
@@ -45,6 +48,9 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
       "dateOfGraduation": "DD/MM/YYYY"
     }
   ];
+
+
+
 
   _otherTextFieldStatus() {
     if (gender == "Other") {
@@ -116,10 +122,12 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
     }
   }
 
+  TextEditingController dropDownSelected = TextEditingController();
   _educationPrompt(BuildContext context) {
     final _eduFormKey = GlobalKey<FormState>();
-    TextEditingController dropDownSelected = TextEditingController();
-    dropDownSelected.text = certifications[0];
+    print(dropDownSelected.text.length);
+    if(dropDownSelected.text.length==0){dropDownSelected.text = certifications[0];}
+    print(dropDownSelected.text);
     Map history;
 
     return showDialog(
@@ -164,7 +172,8 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                             }).toList(),
                             onChanged: (val) {
                               setState(() {
-                                dropDownSelected.text = val;
+                                dropDownSelected = TextEditingController(text: "${val}");
+                                print(dropDownSelected);
                               });
                             },
                             onSaved: (val) {
@@ -204,7 +213,6 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
   }
 
   _educationDisplay(BuildContext context) {
-    print(this.education);
     if (education.length == 0) {
       return Container(
         child: Center(
@@ -356,7 +364,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Radio(
-                                value: "Female",
+                                value: "Woman",
                                 groupValue: group,
                                 onChanged: (val) {
                                   gender = val;
@@ -365,7 +373,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                                     group = val;
                                   });
                                 }),
-                            Text("Female")
+                            Text("Woman")
                           ],
                         ),
 
@@ -373,7 +381,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Radio(
-                                value: "Male",
+                                value: "Man",
                                 groupValue: group,
                                 onChanged: (val) {
                                   gender = val;
@@ -382,7 +390,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                                     group = val;
                                   });
                                 }),
-                            Text("Male")
+                            Text("Man")
                           ],
                         ),
 

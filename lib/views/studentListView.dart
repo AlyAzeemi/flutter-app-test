@@ -102,7 +102,7 @@ class _StudentListViewState extends State<StudentListView> {
                                   snapshot.data[index].rollNumber,
                             ),
                             onTap:
-                                () {}, //Supposed to take to profile page probably
+                                () {Navigator.pushNamed(context, "/teacher/profile",arguments: snapshot.data[index].registrationNumber);}, //Supposed to take to profile page probably
                           ),
                         );
                       });

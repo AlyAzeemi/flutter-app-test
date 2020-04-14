@@ -23,10 +23,10 @@ class _TeacherViewPageState extends State<TeacherViewPage> {
     for (var t in jsonData) {
       Teacher teacher = Teacher(t["fullName"], t["imgUrl"], t["gender"],  t["doB"],
           t["education"], t["lastDegree"], t["CNIC"]);
-      print(teacher);
+      //print(teacher);
       teacherList.add(teacher);
     }
-    print(teacherList);
+    //print(teacherList);
     return teacherList;
   }
 
@@ -72,7 +72,7 @@ class _TeacherViewPageState extends State<TeacherViewPage> {
             child: FutureBuilder(
               future: _getTeachers(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
-                print(snapshot.data);
+                //print(snapshot.data);
                 if (snapshot.data == null) {
                   return Container(
                     child: Center(
@@ -102,7 +102,7 @@ class _TeacherViewPageState extends State<TeacherViewPage> {
                                   snapshot.data[index].cnic,
                             ),
                             onTap:
-                                () {}, //Supposed to take to profile page probably
+                                () {Navigator.pushNamed(context, "/teacher/profile",arguments: snapshot.data[index].cnic);}, //Supposed to take to profile page probably
                           ),
                         );
                       });
