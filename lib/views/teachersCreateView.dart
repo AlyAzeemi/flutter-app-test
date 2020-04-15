@@ -34,18 +34,6 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
       "institution": "Word Wibe Web",
       "yearGraduated": "DD/MM/YYYY"
     },
-    {
-      "certification": "PhD",
-      "subject": "Subpar Design",
-      "institution": "Word Wibe Web",
-      "yearGraduated": "DD/MM/YYYY"
-    },
-    {
-      "certification": "PhD",
-      "subject": "Subpar Design",
-      "institution": "Word Wibe Web",
-      "yearGraduated": "DD/MM/YYYY"
-    }
   ];
 
   _otherTextFieldStatus() {
@@ -144,14 +132,14 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
       dropDownSelected.text = certifications[0];
     }
     print(dropDownSelected.text);
-    Map history;
+    Map history=Map();
 
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
               content: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) => Form(
+            builder: (BuildContext context, StateSetter setStateInside) => Form(
                 key: _eduFormKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -188,7 +176,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                             );
                           }).toList(),
                           onChanged: (val) {
-                            setState(() {
+                            setStateInside(() {
                               dropDownSelected =
                                   TextEditingController(text: "${val}");
                               print(dropDownSelected);
@@ -248,7 +236,10 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                         onPressed: () {
                           if (_eduFormKey.currentState.validate()) {
                             _eduFormKey.currentState.save();
-                            print(history);
+                            setState(() {
+                              education.add(history);
+                              Navigator.pop(context);
+                            });
                           }
                         },
                       ),
