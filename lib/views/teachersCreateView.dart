@@ -21,7 +21,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
     "PhD"
   ];
   String group = "Woman";
-  
+
   //Proxy Teacher Class values
   String fullName;
   String doB;
@@ -48,35 +48,33 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
     }
   ];
 
-
-
-
   _otherTextFieldStatus() {
     if (gender == "Other") {
       return true;
     }
     return false;
   }
-  
-
 
   File teacherFormImage;
-  String imgUrl="https://i.stack.imgur.com/l60Hf.png";
+  String imgUrl = "https://i.stack.imgur.com/l60Hf.png";
   _openGallery() async {
     teacherFormImage = await ImagePicker.pickImage(source: ImageSource.gallery);
     this.setState(() {});
     Navigator.of(context).pop();
   }
+
   _openCamera() async {
     teacherFormImage = await ImagePicker.pickImage(source: ImageSource.camera);
     this.setState(() {});
     Navigator.of(context).pop();
   }
-  _uploadImageToServer()async{
+
+  _uploadImageToServer() async {
     //ImageUploadFunctionGoesHere
-    String imgUrl="TheRetrievedImageURLGoesHere";
+    String imgUrl = "TheRetrievedImageURLGoesHere";
     return true;
   }
+
   Future<void> _profilePicturePrompt(BuildContext context) {
     return showDialog(
         context: context,
@@ -112,7 +110,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
   DateTime selectedDate = DateTime.now();
   TextEditingController birthDateString = TextEditingController();
   TextEditingController graduationDateString = TextEditingController();
-  Future<Null> _selectDate(BuildContext context,bool flag) async {
+  Future<Null> _selectDate(BuildContext context, bool flag) async {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -121,8 +119,11 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        if(flag){birthDateString.text = "${selectedDate.toLocal()}".split(" ")[0];}
-        else{graduationDateString.text = "${selectedDate.toLocal()}".split(" ")[0];}
+        if (flag) {
+          birthDateString.text = "${selectedDate.toLocal()}".split(" ")[0];
+        } else {
+          graduationDateString.text = "${selectedDate.toLocal()}".split(" ")[0];
+        }
       });
     }
   }
@@ -139,7 +140,9 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
   _educationPrompt(BuildContext context) {
     final _eduFormKey = GlobalKey<FormState>();
     print(dropDownSelected.text.length);
-    if(dropDownSelected.text.length==0){dropDownSelected.text = certifications[0];}
+    if (dropDownSelected.text.length == 0) {
+      dropDownSelected.text = certifications[0];
+    }
     print(dropDownSelected.text);
     Map history;
 
@@ -147,108 +150,112 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              content: Form(
-                  key: _eduFormKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextFormField(
+              content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) => Form(
+                key: _eduFormKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        decoration:
+                            InputDecoration(labelText: "Institution Name"),
+                        validator: (val) {
+                          return _presenceCheck(val);
+                        },
+                        onSaved: (val) {
+                          history["instution"] = val;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: DropdownButtonFormField(
                           decoration:
-                              InputDecoration(labelText: "Institution Name"),
-                          validator: (val) {
-                            return _presenceCheck(val);
+                              InputDecoration(labelText: "Certification"),
+                          value: dropDownSelected.text,
+                          icon: Icon(Icons.arrow_downward),
+                          autovalidate: true,
+                          hint: Text("Certification"),
+                          items:
+                              certifications.map((String dropDownStringItem) {
+                            return DropdownMenuItem<String>(
+                              value: dropDownStringItem,
+                              child: Text(dropDownStringItem),
+                            );
+                          }).toList(),
+                          onChanged: (val) {
+                            setState(() {
+                              dropDownSelected =
+                                  TextEditingController(text: "${val}");
+                              print(dropDownSelected);
+                            });
                           },
                           onSaved: (val) {
-                            history["instution"] = val;
+                            print(val);
+                            history["certification"] = val;
                           },
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: DropdownButtonFormField(
-                            decoration:
-                                InputDecoration(labelText: "Certification"),
-                            value: dropDownSelected.text,
-                            icon: Icon(Icons.arrow_downward),
-                            autovalidate: true,
-                            hint: Text("Certification"),
-                            items:
-                                certifications.map((String dropDownStringItem) {
-                              return DropdownMenuItem<String>(
-                                value: dropDownStringItem,
-                                child: Text(dropDownStringItem),
-                              );
-                            }).toList(),
-                            onChanged: (val) {
-                              setState(() {
-                                dropDownSelected = TextEditingController(text: "${val}");
-                                print(dropDownSelected);
-                              });
-                            },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        decoration: InputDecoration(labelText: "Subject"),
+                        validator: (val) {
+                          return _presenceCheck(val);
+                        },
+                        onSaved: (val) {
+                          history["subject"] = val;
+                        },
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(
+                            left: 10,
+                          ),
+                          width: 100,
+                          child: TextFormField(
+                            controller: graduationDateString,
+                            decoration: InputDecoration(
+                                labelText: "Graduated",
+                                labelStyle: TextStyle(color: Colors.black)),
+                            enabled: false,
                             onSaved: (val) {
-                              print(val);
-                              history["certification"] = val;
+                              history["yearGraduated"] = val;
                             },
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(labelText: "Subject"),
-                          validator: (val) {
-                            return _presenceCheck(val);
-                          },
-                          onSaved: (val) {
-                            history["subject"] = val;
-                          },
-                        ),
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(
-                                left: 10,
-                              ),
-                              width: 100,
-                              child: TextFormField(
-                                controller: graduationDateString,
-                                decoration: InputDecoration(
-                                    labelText: "Graduated",
-                                    labelStyle: TextStyle(color: Colors.black)),
-                                enabled: false,
-                                onSaved: (val) {history["yearGraduated"] = val;},
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.calendar_today,
-                                  color: Colors.blue),
-                              onPressed: () {
-                                _selectDate(context,false);
-                              },
-                              alignment: Alignment.bottomCenter,
-                            )
-                          ],
-                        ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: RaisedButton(
-                          child: Text("Save"),
+                        IconButton(
+                          icon: Icon(Icons.calendar_today, color: Colors.blue),
                           onPressed: () {
-                            if (_eduFormKey.currentState.validate()) {
-                              _eduFormKey.currentState.save();
-                              print(history);
-                            }
+                            _selectDate(context, false);
                           },
-                        ),
-                      )
-                    ],
-                  )));
+                          alignment: Alignment.bottomCenter,
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        child: Text("Save"),
+                        onPressed: () {
+                          if (_eduFormKey.currentState.validate()) {
+                            _eduFormKey.currentState.save();
+                            print(history);
+                          }
+                        },
+                      ),
+                    )
+                  ],
+                )),
+          ));
         });
   }
 
@@ -261,7 +268,9 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
       );
     }
     return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width, maxHeight: MediaQuery.of(context).size.height*0.3),
+      constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width,
+          maxHeight: MediaQuery.of(context).size.height * 0.3),
       child: ListView.builder(
         itemCount: education.length,
         itemBuilder: (BuildContext context, int index) {
@@ -289,8 +298,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
     );
   }
 
-
-  _sendToServer(Teacher teacher){
+  _sendToServer(Teacher teacher) {
     //Send HTTP POST REQ TO SERVER
   }
 
@@ -323,8 +331,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                           alignment: Alignment.bottomRight,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: NetworkImage(
-                                  imgUrl),
+                              image: NetworkImage(imgUrl),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -349,7 +356,9 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                             decoration: InputDecoration(
                                 labelText: "Name",
                                 labelStyle: TextStyle(color: Colors.black)),
-                            onSaved: (val) {fullName=val;},
+                            onSaved: (val) {
+                              fullName = val;
+                            },
                           ),
                         ),
 
@@ -362,7 +371,9 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                             decoration: InputDecoration(
                                 labelText: "CNIC",
                                 labelStyle: TextStyle(color: Colors.black)),
-                            onSaved: (val) {cnic=val;},
+                            onSaved: (val) {
+                              cnic = val;
+                            },
                           ),
                         ),
 
@@ -382,7 +393,9 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                                     labelText: "Date of Birth",
                                     labelStyle: TextStyle(color: Colors.black)),
                                 enabled: false,
-                                onSaved: (val) {doB=val;},
+                                onSaved: (val) {
+                                  doB = val;
+                                },
                               ),
                             ),
                             IconButton(
@@ -471,7 +484,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                             style: TextStyle(fontSize: 18),
                           ),
                           trailing: IconButton(
-                            alignment: Alignment.centerRight,
+                              alignment: Alignment.centerRight,
                               icon: Icon(
                                 Icons.add,
                                 color: Colors.blue,
@@ -487,15 +500,29 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                           minWidth: MediaQuery.of(context).size.width * 0.9,
                           child: FlatButton(
                             onPressed: () {
-                              if(_formKey.currentState.validate() && education.length>0){
+                              if (_formKey.currentState.validate() &&
+                                  education.length > 0) {
                                 _formKey.currentState.save();
 
-                                String _certification = education[education.length-1]["certification"];
-                                String _subject = education[education.length-1]["subject"];
-                                String _institution = education[education.length-1]["education"];
+                                String _certification =
+                                    education[education.length - 1]
+                                        ["certification"];
+                                String _subject =
+                                    education[education.length - 1]["subject"];
+                                String _institution =
+                                    education[education.length - 1]
+                                        ["education"];
 
-                                String lastDegree = "${_certification} in ${_subject} from ${_institution}";
-                                Teacher _teacher = Teacher.extended(fullName, imgUrl, gender, doB, education, lastDegree, cnic);
+                                String lastDegree =
+                                    "${_certification} in ${_subject} from ${_institution}";
+                                Teacher _teacher = Teacher.extended(
+                                    fullName,
+                                    imgUrl,
+                                    gender,
+                                    doB,
+                                    education,
+                                    lastDegree,
+                                    cnic);
 
                                 _sendToServer(_teacher);
                               }

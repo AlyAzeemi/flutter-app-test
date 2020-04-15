@@ -15,8 +15,8 @@ class ProfileView extends StatelessWidget {
     //Make http req using uniqueID
     //Commment one out to test for each type of reponse
     String education ='''[{"certification": "PhD","subject": "Subpar Design","institution": "Word Wibe Web","yearGraduated": "DD/MM/YYYY"},{"certification": "PhD 2","subject": "Subpar Design 2","institution": "Word Wibe Web 2","yearGraduated": "DD/MM/YYYY"}]''';
-    //String response ='''{"fullName":"Student A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "registrationNumber":"1234567890123","rollNumber":"1234567890123","class":"ClassNameHere"}''';
-    String response ='''{"fullName":"Teacher A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "education":"$education", "CNIC":"1234567890123"}''';
+    String response ='''{"fullName":"Student A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "registrationNumber":"1234567890123","rollNumber":"1234567890123","class":"ClassNameHere"}''';
+    //String response ='''{"fullName":"Teacher A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "education":"$education", "CNIC":"1234567890123"}''';
     Map jsonData = jsonDecode(response);
     
     return jsonData;
@@ -173,7 +173,7 @@ class ProfileView extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Column(
                           children: <Widget>[
-                            Padding(padding: EdgeInsets.only(top: 10)),
+                            Padding(padding: EdgeInsets.only(top: 20)),
                             Container(
                               padding: EdgeInsets.only(left: 10),
                               child: Row(
