@@ -14,15 +14,15 @@ class TeacherViewPage extends StatefulWidget {
 class _TeacherViewPageState extends State<TeacherViewPage> {
   Future<List<Teacher>> _getTeachers() async {
     //var data = await http.get(url)
-    
-    var data ='''[{"fullName":"Teacher A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "education":"Insert educational background here.", "lastDegree":"LastCertificationGoesHere", "CNIC":"1234567890123"},{"fullName":"Teacher B", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Female", "doB":"DD/MM/YY", "education":"Insert educational background here.", "lastDegree":"LastCertificationGoesHere", "CNIC":"1234567890123"}]''';
+    var data =
+        '''[{"fullName":"Teacher A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "lastDegree":"LastCertificationGoesHere", "CNIC":"1234567890123"},{"fullName":"Teacher B", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Female", "doB":"DD/MM/YY", "lastDegree":"LastCertificationGoesHere", "CNIC":"1234567890123"}]''';
     var jsonData = jsonDecode(data);
-    
+
     List<Teacher> teacherList = [];
 
     for (var t in jsonData) {
-      Teacher teacher = Teacher(t["fullName"], t["imgUrl"], t["gender"],  t["doB"],
-          t["education"], t["lastDegree"], t["CNIC"]);
+      Teacher teacher = Teacher.short(t["fullName"], t["imgUrl"], t["gender"],
+          t["doB"], t["lastDegree"], t["CNIC"]);
       //print(teacher);
       teacherList.add(teacher);
     }
@@ -40,28 +40,29 @@ class _TeacherViewPageState extends State<TeacherViewPage> {
         title: appBarTitle,
         actions: <Widget>[
           IconButton(
-            icon: actionIcon, 
-            onPressed: () {
-              setState(() {
-                if(this.actionIcon.icon == Icons.search){
-                  this.actionIcon = Icon(Icons.close);
-                  this.appBarTitle = TextField(
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search,color: Colors.white,),
-                      hintText: "Search...",
-                      hintStyle: TextStyle(color: Colors.white)
-                    ),
-                  );
-                }else{
-                  this.actionIcon = Icon(Icons.search);
-                  this.appBarTitle = Text("Teachers");
-                }
-              });
-            }
-          )
+              icon: actionIcon,
+              onPressed: () {
+                setState(() {
+                  if (this.actionIcon.icon == Icons.search) {
+                    this.actionIcon = Icon(Icons.close);
+                    this.appBarTitle = TextField(
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ),
+                          hintText: "Search...",
+                          hintStyle: TextStyle(color: Colors.white)),
+                    );
+                  } else {
+                    this.actionIcon = Icon(Icons.search);
+                    this.appBarTitle = Text("Teachers");
+                  }
+                });
+              })
         ],
       ),
       body: Column(
@@ -84,7 +85,10 @@ class _TeacherViewPageState extends State<TeacherViewPage> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
-                          decoration: BoxDecoration(color: Colors.white, border: Border.all(width: 1, color: Colors.black54)),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border:
+                                  Border.all(width: 1, color: Colors.black54)),
                           child: ListTile(
                             leading: CircleAvatar(
                               backgroundImage:
@@ -101,8 +105,10 @@ class _TeacherViewPageState extends State<TeacherViewPage> {
                                   "CNIC:" +
                                   snapshot.data[index].cnic,
                             ),
-                            onTap:
-                                () {Navigator.pushNamed(context, "/teacher/profile",arguments: snapshot.data[index].cnic);}, //Supposed to take to profile page probably
+                            onTap: () {
+                              Navigator.pushNamed(context, "/teacher/profile",
+                                  arguments: snapshot.data[index].cnic);
+                            }, //Supposed to take to profile page probably
                           ),
                         );
                       });
@@ -121,7 +127,3 @@ class _TeacherViewPageState extends State<TeacherViewPage> {
     );
   }
 }
-
-
-
-

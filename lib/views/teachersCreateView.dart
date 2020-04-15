@@ -11,8 +11,7 @@ class TeacherCreateView extends StatefulWidget {
 }
 
 class _TeacherCreateViewState extends State<TeacherCreateView> {
-  Teacher _teacher;
-  GlobalKey _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   List<String> certifications = [
     "Highschool Diploma",
     "A-levels",
@@ -24,28 +23,28 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
   String group = "Woman";
   
   //Proxy Teacher Class values
-  String gender;
-  String name;
-  String cnic;
+  String fullName;
   String doB;
+  String cnic;
+  String gender = "Woman";
   List<Map> education = [
     {
       "certification": "PhD",
       "subject": "Subpar Design",
       "institution": "Word Wibe Web",
-      "dateOfGraduation": "DD/MM/YYYY"
+      "yearGraduated": "DD/MM/YYYY"
     },
     {
       "certification": "PhD",
       "subject": "Subpar Design",
       "institution": "Word Wibe Web",
-      "dateOfGraduation": "DD/MM/YYYY"
+      "yearGraduated": "DD/MM/YYYY"
     },
     {
       "certification": "PhD",
       "subject": "Subpar Design",
       "institution": "Word Wibe Web",
-      "dateOfGraduation": "DD/MM/YYYY"
+      "yearGraduated": "DD/MM/YYYY"
     }
   ];
 
@@ -58,20 +57,26 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
     }
     return false;
   }
+  
+
 
   File teacherFormImage;
+  String imgUrl="https://i.stack.imgur.com/l60Hf.png";
   _openGallery() async {
     teacherFormImage = await ImagePicker.pickImage(source: ImageSource.gallery);
     this.setState(() {});
     Navigator.of(context).pop();
   }
-
   _openCamera() async {
     teacherFormImage = await ImagePicker.pickImage(source: ImageSource.camera);
     this.setState(() {});
     Navigator.of(context).pop();
   }
-
+  _uploadImageToServer()async{
+    //ImageUploadFunctionGoesHere
+    String imgUrl="TheRetrievedImageURLGoesHere";
+    return true;
+  }
   Future<void> _profilePicturePrompt(BuildContext context) {
     return showDialog(
         context: context,
@@ -83,12 +88,18 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                 children: <Widget>[
                   GestureDetector(
                     child: Text('Gallery'),
-                    onTap: () => _openGallery(),
+                    onTap: () {
+                      _openGallery();
+                      _uploadImageToServer();
+                    },
                   ),
                   Padding(padding: EdgeInsets.all(8.0)),
                   GestureDetector(
                     child: Text('Camera'),
-                    onTap: () => _openCamera(),
+                    onTap: () {
+                      _openCamera();
+                      _uploadImageToServer();
+                    },
                   ),
                 ],
               ),
@@ -99,8 +110,9 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
 
   //Opens calender to select date
   DateTime selectedDate = DateTime.now();
-  TextEditingController dateString = TextEditingController();
-  Future<Null> _selectDate(BuildContext context) async {
+  TextEditingController birthDateString = TextEditingController();
+  TextEditingController graduationDateString = TextEditingController();
+  Future<Null> _selectDate(BuildContext context,bool flag) async {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -109,7 +121,8 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        dateString.text = "${selectedDate.toLocal()}".split(" ")[0];
+        if(flag){birthDateString.text = "${selectedDate.toLocal()}".split(" ")[0];}
+        else{graduationDateString.text = "${selectedDate.toLocal()}".split(" ")[0];}
       });
     }
   }
@@ -195,6 +208,33 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                           },
                         ),
                       ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(
+                                left: 10,
+                              ),
+                              width: 100,
+                              child: TextFormField(
+                                controller: graduationDateString,
+                                decoration: InputDecoration(
+                                    labelText: "Graduated",
+                                    labelStyle: TextStyle(color: Colors.black)),
+                                enabled: false,
+                                onSaved: (val) {history["yearGraduated"] = val;},
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.calendar_today,
+                                  color: Colors.blue),
+                              onPressed: () {
+                                _selectDate(context,false);
+                              },
+                              alignment: Alignment.bottomCenter,
+                            )
+                          ],
+                        ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
@@ -229,7 +269,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
             title: Text(
                 "${education[index]["certification"]} in ${education[index]["subject"]}"),
             subtitle: Text("Institute: ${education[index]["institution"]}\n" +
-                "Graduated: ${education[index]["dateOfGraduation"]}"),
+                "Graduated: ${education[index]["yearGraduated"]}"),
             trailing: CircleAvatar(
               backgroundColor: Colors.red,
               child: IconButton(
@@ -247,6 +287,11 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
         },
       ),
     );
+  }
+
+
+  _sendToServer(Teacher teacher){
+    //Send HTTP POST REQ TO SERVER
   }
 
   @override
@@ -279,7 +324,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: NetworkImage(
-                                  "https://i.stack.imgur.com/l60Hf.png"),
+                                  imgUrl),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -304,7 +349,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                             decoration: InputDecoration(
                                 labelText: "Name",
                                 labelStyle: TextStyle(color: Colors.black)),
-                            onSaved: (val) {},
+                            onSaved: (val) {fullName=val;},
                           ),
                         ),
 
@@ -317,7 +362,7 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                             decoration: InputDecoration(
                                 labelText: "CNIC",
                                 labelStyle: TextStyle(color: Colors.black)),
-                            onSaved: (val) {},
+                            onSaved: (val) {cnic=val;},
                           ),
                         ),
 
@@ -332,19 +377,19 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                               ),
                               width: 100,
                               child: TextFormField(
-                                controller: dateString,
+                                controller: birthDateString,
                                 decoration: InputDecoration(
                                     labelText: "Date of Birth",
                                     labelStyle: TextStyle(color: Colors.black)),
                                 enabled: false,
-                                onSaved: (val) {},
+                                onSaved: (val) {doB=val;},
                               ),
                             ),
                             IconButton(
                               icon: Icon(Icons.calendar_today,
                                   color: Colors.blue),
                               onPressed: () {
-                                _selectDate(context);
+                                _selectDate(context, true);
                               },
                               alignment: Alignment.bottomCenter,
                             )
@@ -441,7 +486,20 @@ class _TeacherCreateViewState extends State<TeacherCreateView> {
                             child: ButtonTheme(
                           minWidth: MediaQuery.of(context).size.width * 0.9,
                           child: FlatButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              if(_formKey.currentState.validate() && education.length>0){
+                                _formKey.currentState.save();
+
+                                String _certification = education[education.length-1]["certification"];
+                                String _subject = education[education.length-1]["subject"];
+                                String _institution = education[education.length-1]["education"];
+
+                                String lastDegree = "${_certification} in ${_subject} from ${_institution}";
+                                Teacher _teacher = Teacher.extended(fullName, imgUrl, gender, doB, education, lastDegree, cnic);
+
+                                _sendToServer(_teacher);
+                              }
+                            },
                             child: Text(
                               "Submit",
                               style: TextStyle(color: Colors.white),

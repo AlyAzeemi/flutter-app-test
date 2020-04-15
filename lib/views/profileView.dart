@@ -14,21 +14,25 @@ class ProfileView extends StatelessWidget {
   Future<Map> _getProfile() async {
     //Make http req using uniqueID
     //Commment one out to test for each type of reponse
-    String response ='''{"fullName":"Student A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "registrationNumber":"1234567890123","rollNumber":"1234567890123","class":"ClassNameHere"}''';
-        //'''{"fullName":"Teacher A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "education":"Insert educational background here.", "lastDegree":"LastCertificationGoesHere", "CNIC":"1234567890123"}''';
+    String education ='''[{"certification": "PhD","subject": "Subpar Design","institution": "Word Wibe Web","yearGraduated": "DD/MM/YYYY"},{"certification": "PhD 2","subject": "Subpar Design 2","institution": "Word Wibe Web 2","yearGraduated": "DD/MM/YYYY"}]''';
+    //String response ='''{"fullName":"Student A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "registrationNumber":"1234567890123","rollNumber":"1234567890123","class":"ClassNameHere"}''';
+    String response ='''{"fullName":"Teacher A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "education":"$education", "CNIC":"1234567890123"}''';
     Map jsonData = jsonDecode(response);
+    
     return jsonData;
   }
 
-  dynamic _createmodel(jsonData) {
+  _createmodel(jsonData) {
     if (jsonData["education"] != null) {
+      dynamic temp = jsonData["education"];
+      assert(temp is List<Map>);
+      print(temp);
       model = Teacher(
           jsonData["fullName"],
           jsonData["imgUrl"],
           jsonData["gender"],
           jsonData["doB"],
-          jsonData["education"],
-          jsonData["lastDegree"],
+          temp,
           jsonData["CNIC"]);
     } else {
       model = Student(
@@ -41,6 +45,7 @@ class ProfileView extends StatelessWidget {
           jsonData["class"]);
     }
 
+    
     return model;
   }
 
@@ -83,7 +88,20 @@ class ProfileView extends StatelessWidget {
                               child: Row(
                                 children: <Widget>[
                                   Text("Education: ", style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                                  Text("${model.education}", style: TextStyle(fontSize: 18,),)
+                                  ListView.builder(
+                                    itemCount: model.education.length,
+                                    itemBuilder: (BuildContext context,int index){
+                                      print(model.education.length);
+                                      DateTime now = DateTime.now();
+                                      return ListTile(
+                                        title: Text("${model.education[index]["certification"]} in ${model.education[index]["subject"]}"),
+                                        subtitle: Text(
+                                          "Institution: ${model.education[index]["institution"]}\n"+
+                                          "Graduated:  ${model.education[index]["yearGraduated"]}"
+                                          ),
+                                      );
+                                    }
+                                    )
                                 ],
                               ),
                             ),

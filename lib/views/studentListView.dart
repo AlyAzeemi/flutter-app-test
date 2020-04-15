@@ -14,7 +14,6 @@ class StudentListView extends StatefulWidget {
 class _StudentListViewState extends State<StudentListView> {
   Future<List<Student>> _getStudents() async {
     //var data = await http.get(url)
-    
     var data ='''[{"fullName":"Student A", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "registrationNumber":"1234567890123","rollNumber":"1234567890123","class":"ClassNameHere"},{"fullName":"Student B", "imgUrl":"https://i.stack.imgur.com/l60Hf.png", "gender":"Male", "doB":"DD/MM/YY", "registrationNumber":"1234567890123","rollNumber":"1234567890123","class":"ClassNameHere"}]''';
     var jsonData = jsonDecode(data);
     

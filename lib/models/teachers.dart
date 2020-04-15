@@ -2,16 +2,20 @@ class Teacher {
   String _fullName;
   String _gender;
   String _doB;
-  String _education;
+  List<Map> _education;
   String _lastDegree;
   String _cnic;
   String _imgUrl;
 
-  Teacher(this._fullName, this._imgUrl, this._gender, this._doB,
+  Teacher.extended(this._fullName, this._imgUrl, this._gender, this._doB,
       this._education, this._lastDegree, this._cnic);
 
+  Teacher.short(this._fullName, this._imgUrl, this._gender, this._doB,
+      this._lastDegree, this._cnic);
 
-
+  Teacher(this._fullName, this._imgUrl, this._gender, this._doB,
+      this._education, this._cnic);
+      
   String get fullName => _fullName;
 
   set fullName(String fullName) {
@@ -30,9 +34,9 @@ class Teacher {
     _doB = doB;
   }
 
-  String get education => _education;
+  List<Map> get education => _education;
 
-  set education(String education) {
+  set education(List<Map> education) {
     _education = education;
   }
 
@@ -53,6 +57,4 @@ class Teacher {
   set imgUrl(String imgUrl) {
     _imgUrl = imgUrl;
   }
-
-  
 }
